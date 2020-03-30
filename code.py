@@ -4,7 +4,7 @@ from pyspark.sql.functions import *
 from pyspark.sql.types import *
 
 # 1 Import the file named ks-projects-201612.csv (You can find this file on kaggle: https://www.kaggle.com/kemical/kickstarter-projects/download)
-df = spark.read.option("header", "true").option("quote", "\"").option("escape", "\"").option("inferSchema", "true").csv("hdfs:///user/sist_analyticsdev_01/teste/ks-projects-201612.csv")
+df = spark.read.option("header", "true").option("quote", "\"").option("escape", "\"").option("inferSchema", "true").csv("hdfs:///user/teste/ks-projects-201612.csv")
 # Organize each column in the file that is delimited by commas
 
 df = df.withColumnRenamed("ID ","ID").withColumnRenamed("name ","name").withColumnRenamed("category ","category").withColumnRenamed("main_category ", "main_category").withColumnRenamed("currency ","currency").withColumnRenamed("deadline ","deadline").withColumnRenamed("goal ","goal").withColumnRenamed("launched ","launched").withColumnRenamed("pledged ","pledged").withColumnRenamed("state ","state").withColumnRenamed("backers ","backers").withColumnRenamed("country ","country").withColumnRenamed("usd pledged ","usd pledged")
@@ -39,7 +39,7 @@ df_joiner.where("trim(currency) == 'USD'").groupBy("category").agg(avg(col("pled
 
 # 5 Save the US projects from the categories listed on our created dataframe in a csv file
 eua_country = df_joiner.where("trim(country) == 'US'")
-eua_country.repartition(1).write.csv("hdfs:///user/sist_analyticsdev_01/teste/country_eua.csv", sep='|')
+eua_country.repartition(1).write.csv("hdfs:///user/teste/country_eua.csv", sep='|')
 # Create a data frame with projects in the USA from the categories listed after saving them in a .csv file 
 
 # 6 Tell us how would you save these entries on an Impala database
